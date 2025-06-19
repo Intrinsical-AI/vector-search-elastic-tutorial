@@ -23,13 +23,12 @@ print(model.device)
 
 def batch_encode_to_vectors(input_filename, output_filename):
     """Encode text in batches and save the resulting vectors."""
-    # Open the file containing text.
-    with open(input_filename, 'r') as documents_file:
-        # Open the file in which the vectors will be saved.
-        with open(output_filename, 'w+') as out:
+    try:
+        with open(input_filename, 'r') as documents_file, \
+                open(output_filename, 'w+') as out:
             processed = 0
             # Processing 100 documents at a time.
-            for n_lines in iter(lambda: tuple(islice(documents_file, BATCH_SIZE)), ()):
+            for n_lines in iter(lambda: tuple(islice(documents_file, BATCH_SIZE)), ()): 
                 processed += 1
                 if processed % INFO_UPDATE_FACTOR == 0:
                     print("Processed {} batch of documents".format(processed))
@@ -39,6 +38,9 @@ def batch_encode_to_vectors(input_filename, output_filename):
                 for v in vectors:
                     out.write(','.join([str(i) for i in v]))
                     out.write('\n')
+    except FileNotFoundError as exc:
+        print(f"Error: file '{exc.filename}' not found.")
+        sys.exit(1)
 
 
 def encode(documents):

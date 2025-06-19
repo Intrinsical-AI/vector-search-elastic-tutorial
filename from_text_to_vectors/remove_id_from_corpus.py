@@ -15,9 +15,13 @@ def main():
 
 def remove_id_from_corpus(input_filename, output_filename):
     """Write a copy of the corpus without the identifier column."""
-    df = pd.read_csv(input_filename, sep='\t', names=["id", "general_text"])
-    df.drop("id", axis=1, inplace=True)
-    df.to_csv(output_filename, sep="\t", index=False, header=False)
+    try:
+        df = pd.read_csv(input_filename, sep='\t', names=["id", "general_text"])
+        df.drop("id", axis=1, inplace=True)
+        df.to_csv(output_filename, sep="\t", index=False, header=False)
+    except FileNotFoundError as exc:
+        print(f"Error: file '{exc.filename}' not found.")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
