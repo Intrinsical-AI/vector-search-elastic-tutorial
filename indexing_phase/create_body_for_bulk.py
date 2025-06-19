@@ -3,6 +3,7 @@ import sys
 import random
 
 def create_body(input_filename):
+    """Print bulk indexing body using only text values."""
     ms_marco_corpus = pd.read_csv(input_filename, delimiter="\t", names=["general_text"])
     ms_marco_corpus['color'] = pd.Series(random.choices(['red', 'green', 'white', 'black'], k=len(ms_marco_corpus)), index=ms_marco_corpus.index)
 
@@ -12,6 +13,7 @@ def create_body(input_filename):
 
 
 def create_body_with_vectors(input_filename, input_filename_vectors_first_field, input_filename_vectors_second_field):
+    """Print bulk body including text and two vector fields."""
     ms_marco_corpus = pd.read_csv(input_filename, delimiter="\t", names=["general_text"])
     ms_marco_corpus['color'] = pd.Series(random.choices(['red', 'green', 'white', 'black'], k=len(ms_marco_corpus)), index=ms_marco_corpus.index)
     ms_marco_corpus['embeddings_384'] = pd.read_csv(input_filename_vectors_first_field, delimiter="\t", names=["embeddings_384"])
