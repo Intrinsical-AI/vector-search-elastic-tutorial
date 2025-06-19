@@ -1,3 +1,5 @@
+"""Import a Hugging Face model into Elasticsearch."""
+
 import elasticsearch
 from pathlib import Path
 from eland.ml.pytorch import PyTorchModel
