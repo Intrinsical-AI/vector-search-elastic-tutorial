@@ -15,6 +15,7 @@ INDEX_NAME = "neural_index"
 #CA_CERTS_PATH = "path/to/http_ca.crt"
 
 def index_documents(documents_filename, embedding_filename_first_field, embedding_filename_second_field, index_name, client):
+    """Index documents and their vectors into Elasticsearch."""
     # Open the file containing text.
     with open(documents_filename, "r") as documents_file:
         # Open the file containing vectors.
@@ -23,6 +24,7 @@ def index_documents(documents_filename, embedding_filename_first_field, embeddin
             # For each document creates a JSON document including both text and related vector.
             for index, (document, vector_string_384, vector_string_768) in enumerate(
                     zip(documents_file, vectors_file_384, vectors_file_768)):
+                document = document.strip()
 
                 vector_384 = [float(w) for w in vector_string_384.split(",")]
                 vector_768 = [float(w) for w in vector_string_768.split(",")]
@@ -51,6 +53,10 @@ def index_documents(documents_filename, embedding_filename_first_field, embeddin
             print("Finished")
 
 def main():
+    """CLI entry point for bulk indexing."""
+    if len(sys.argv) != 4:
+        print(f"Usage: {sys.argv[0]} <documents> <vectors_384> <vectors_768>")
+        return
     document_filename = sys.argv[1]
     embedding_filename_384 = sys.argv[2]
     embedding_filename_768 = sys.argv[3]

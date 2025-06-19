@@ -1,3 +1,5 @@
+"""Index documents using an ingest pipeline and text embeddings."""
+
 import sys
 import time
 import random
@@ -12,11 +14,13 @@ INDEX_NAME = "neural_index"
 PIPELINE_NAME = "text-embeddings"
 
 def index_documents(documents_filename, client):
+    """Index documents using an ingest pipeline."""
     # Open the file containing text.
     with open(documents_filename, "r") as documents_file:
             documents = []
             # For each document creates a JSON document including text (and id).
             for index, document in enumerate(documents_file):
+                document = document.strip()
                 # Generate color value randomly (additional feature to show FILTER query behaviour).
                 color = random.choice(['red', 'green', 'white', 'black'])
                 # Create the JSON document including index name and pipeline.
@@ -42,6 +46,10 @@ def index_documents(documents_filename, client):
             print("Finished")
 
 def main():
+    """CLI entry point for pipeline indexing."""
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <documents>")
+        return
     document_filename = sys.argv[1]
 
     # Declare a client instance of the Python Elasticsearch library.

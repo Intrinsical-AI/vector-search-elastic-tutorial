@@ -22,13 +22,13 @@ print(model.device)
 
 
 def batch_encode_to_vectors(input_filename, output_filename):
-    # Open the file containing text.
-    with open(input_filename, 'r') as documents_file:
-        # Open the file in which the vectors will be saved.
-        with open(output_filename, 'w+') as out:
+    """Encode text in batches and save the resulting vectors."""
+    try:
+        with open(input_filename, 'r') as documents_file, \
+                open(output_filename, 'w+') as out:
             processed = 0
             # Processing 100 documents at a time.
-            for n_lines in iter(lambda: tuple(islice(documents_file, BATCH_SIZE)), ()):
+            for n_lines in iter(lambda: tuple(islice(documents_file, BATCH_SIZE)), ()): 
                 processed += 1
                 if processed % INFO_UPDATE_FACTOR == 0:
                     print("Processed {} batch of documents".format(processed))
@@ -38,14 +38,23 @@ def batch_encode_to_vectors(input_filename, output_filename):
                 for v in vectors:
                     out.write(','.join([str(i) for i in v]))
                     out.write('\n')
+    except FileNotFoundError as exc:
+        print(f"Error: file '{exc.filename}' not found.")
+        sys.exit(1)
 
 
 def encode(documents):
-    embeddings = model.encode(documents, show_progress_bar=True)
+    with torch.no_grad():
+        embeddings = model.encode(documents, show_progress_bar=True)
+
     print('Vector dimension: ' + str(len(embeddings[0])))
     return embeddings
 
 def main():
+    """CLI entry point for batch vector generation."""
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <input_file> <output_file>")
+        return
     input_filename = sys.argv[1]
     output_filename = sys.argv[2]
     initial_time = time.time()
@@ -54,4 +63,4 @@ def main():
     print('Vectors created in {:f} seconds\n'.format(finish_time - initial_time))
 
 if __name__ == "__main__":
-        main()
+    main()
