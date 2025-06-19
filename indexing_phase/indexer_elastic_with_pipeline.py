@@ -1,3 +1,5 @@
+"""Index documents using an ingest pipeline and text embeddings."""
+
 import sys
 import time
 import random

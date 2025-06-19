@@ -1,3 +1,5 @@
+"""Generate JSON bodies for Elasticsearch bulk API."""
+
 import pandas as pd
 import sys
 import random
