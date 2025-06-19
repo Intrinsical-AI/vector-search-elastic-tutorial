@@ -42,8 +42,9 @@ def batch_encode_to_vectors(input_filename, output_filename):
 
 
 def encode(documents):
-    """Return sentence embeddings for the provided documents."""
-    embeddings = model.encode(documents, show_progress_bar=True)
+    with torch.no_grad():
+        embeddings = model.encode(documents, show_progress_bar=True)
+
     print('Vector dimension: ' + str(len(embeddings[0])))
     return embeddings
 

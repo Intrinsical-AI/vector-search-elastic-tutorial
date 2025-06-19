@@ -18,6 +18,7 @@ def index_documents(documents_filename, client):
             documents = []
             # For each document creates a JSON document including text (and id).
             for index, document in enumerate(documents_file):
+                document = document.strip()
                 # Generate color value randomly (additional feature to show FILTER query behaviour).
                 color = random.choice(['red', 'green', 'white', 'black'])
                 # Create the JSON document including index name and pipeline.
