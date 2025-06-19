@@ -1,3 +1,5 @@
+"""Example script that encodes a single sentence."""
+
 from sentence_transformers import SentenceTransformer
 
 # The sentence we like to encode

@@ -12,6 +12,7 @@ INDEX_NAME = "neural_index"
 PIPELINE_NAME = "text-embeddings"
 
 def index_documents(documents_filename, client):
+    """Index documents using an ingest pipeline."""
     # Open the file containing text.
     with open(documents_filename, "r") as documents_file:
             documents = []
@@ -42,6 +43,10 @@ def index_documents(documents_filename, client):
             print("Finished")
 
 def main():
+    """CLI entry point for pipeline indexing."""
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <documents>")
+        return
     document_filename = sys.argv[1]
 
     # Declare a client instance of the Python Elasticsearch library.

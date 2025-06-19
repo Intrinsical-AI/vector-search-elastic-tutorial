@@ -22,6 +22,7 @@ print(model.device)
 
 
 def batch_encode_to_vectors(input_filename, output_filename):
+    """Encode text in batches and save the resulting vectors."""
     # Open the file containing text.
     with open(input_filename, 'r') as documents_file:
         # Open the file in which the vectors will be saved.
@@ -41,11 +42,16 @@ def batch_encode_to_vectors(input_filename, output_filename):
 
 
 def encode(documents):
+    """Return sentence embeddings for the provided documents."""
     embeddings = model.encode(documents, show_progress_bar=True)
     print('Vector dimension: ' + str(len(embeddings[0])))
     return embeddings
 
 def main():
+    """CLI entry point for batch vector generation."""
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <input_file> <output_file>")
+        return
     input_filename = sys.argv[1]
     output_filename = sys.argv[2]
     initial_time = time.time()
