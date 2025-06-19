@@ -29,55 +29,55 @@ pip install -r requirements.txt
 ## Pipeline: ##
 To run Elasticsearch (after [downloading](https://www.elastic.co/downloads/past-releases#elasticsearch) it):
 
-````
+```
 cd elasticsearch-8.8.0
 bin/elasticsearch
 curl localhost:9200
-````
+```
 
 To produce vectors externally:
 
-````
+```
 cd from_text_to_vectors
 python batch-sentence-transformers.py "./example_input/documents_10k.tsv" "./example_output/vector_documents_10k_384.tsv"
-````
+```
 
 To index batches of documents to Elasticsearch:
 
-````
+```
 cd indexing_phase
 python indexer_elastic.py "../from_text_to_vectors/example_input/documents_10k.tsv" "../from_text_to_vectors/example_output/vector_documents_10k_384.tsv" "../from_text_to_vectors/example_output/vector_documents_10k_768.tsv"
-````
+```
 
 To transform a query into vectors:
 
-````
+```
 cd from_text_to_vectors
 python single-sentence-transformers.py
-````
+```
 
 ### Advanced feature (Platinum or Enterprise License) ###
 
 If you run `import_model.py` with basic license you got the following error:
-````
+```
 elasticsearch.AuthorizationException: AuthorizationException(403, 'security_exception', 'current license is non-compliant for [ml]')
-````
+```
 To use it, start a [free trial](https://www.elastic.co/guide/en/elasticsearch/reference/current/start-trial.html):
 
-````
+```
 curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true
-````
+```
 
 To import and load a language model to do inference directly within Elasticsearch:
 
-````
+```
 cd nlp_models
 python import_model.py
-````
+```
 
 To index batches of documents to Elasticsearch using a Text Embedding Ingest Pipeline:
 
-````
+```
 cd indexing_phase
 python indexer_elastic_with_pipeline.py "../from_text_to_vectors/example_input/documents_10k.tsv"
-````
+```
