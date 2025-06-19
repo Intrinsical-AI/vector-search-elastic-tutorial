@@ -23,6 +23,7 @@ def index_documents(documents_filename, embedding_filename_first_field, embeddin
             # For each document creates a JSON document including both text and related vector.
             for index, (document, vector_string_384, vector_string_768) in enumerate(
                     zip(documents_file, vectors_file_384, vectors_file_768)):
+                document = document.strip()
 
                 vector_384 = [float(w) for w in vector_string_384.split(",")]
                 vector_768 = [float(w) for w in vector_string_768.split(",")]
