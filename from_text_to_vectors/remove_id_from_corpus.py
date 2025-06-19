@@ -20,4 +20,4 @@ def remove_id_from_corpus(input_filename, output_filename):
     df.to_csv(output_filename, sep="\t", index=False, header=False)
 
 if __name__ == "__main__":
-        main()
+    main()
